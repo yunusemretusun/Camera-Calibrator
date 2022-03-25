@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <opencv4/opencv2/opencv.hpp>
+#include <opencv2/opencv.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/highgui.hpp>
 #include <opencv2/core/core.hpp>
@@ -9,7 +9,7 @@
 #include <QDebug>
 #include <QMessageBox>
 #include <QtXml/QtXml>
-#include "calibrationprocess.h"
+#include "src/calibrationprocess.h"
 
 
 

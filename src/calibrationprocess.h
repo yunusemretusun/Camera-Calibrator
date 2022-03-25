@@ -1,11 +1,11 @@
 #ifndef CALIBRATIONPROCESS_H
 #define CALIBRATIONPROCESS_H
 
-#include <opencv4/opencv2/opencv.hpp>
 #include <stdio.h>
 #include <stdlib.h>
 
 
+#include <opencv2/opencv.hpp>
 #include<QtCore>
 #include<QtXml>
 #include<QDebug>
@@ -35,11 +35,7 @@ public:
     vector<Mat> rVectors,tVectors;
     vector<float> reprojErrs;
     bool showUndistortedImage;
-
-
-
 private:
-
     double meanError;
     bool mustInitUndistort;
     void createKnownBoardPosition(Size boardSize,float squareEdgeLength,vector<Point3f>& corners);

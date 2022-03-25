@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "calibrationprocess.h"
+#include "src/calibrationprocess.h"
 #include <QButtonGroup>
 
 namespace Ui {
