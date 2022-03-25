@@ -13,6 +13,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(OpenCV REQUIRED)
 
+include(GNUInstallDirs)
+
 
 message(STATUS "Project will be installed to ${CMAKE_INSTALL_PREFIX}")
 if(NOT CMAKE_BUILD_TYPE)
@@ -20,13 +22,6 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 
 message(STATUS "Build type set to ${CMAKE_BUILD_TYPE}")
-
-
-
-
-
-include_directories( ${OpenCV_INCLUDE_DIRS})
-
 
 find_package(QT NAMES Qt6 COMPONENTS Core REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core REQUIRED)
@@ -48,7 +43,25 @@ add_executable(camera_calibrator
 
 include_directories(camera_calibrator src/calibrationprocess.h)
 
-target_link_libraries(calibrator ${OpenCV_LIBS} Qt6::Core Qt6::Xml)
+target_link_libraries(calibrator  ${OpenCV_LIBS} Qt6::Core Qt6::Xml)
 target_link_libraries(camera_calibrator PRIVATE Qt6::Widgets)
 target_link_libraries(camera_calibrator PRIVATE Qt6::Xml)
 target_link_libraries(camera_calibrator PRIVATE calibrator)
+
+install(TARGETS camera_calibrator DESTINATION bin/${CMAKE_BUILD_TYPE})
+install(TARGETS calibrator DESTINATION bin/${CMAKE_BUILD_TYPE})
+
+
+# Retrieve the absolute path to qmake and then use that path to find
+# the binaries
+get_target_property(_qmake_executable Qt6::qmake IMPORTED_LOCATION)
+get_filename_component(_qt_bin_dir "${_qmake_executable}" DIRECTORY)
+find_program(WINDEPLOYQT_EXECUTABLE windeployqt HINTS "${_qt_bin_dir}")
+find_program(MACDEPLOYQT_EXECUTABLE macdeployqt HINTS "${_qt_bin_dir}")
+
+add_custom_command(TARGET camera_calibrator POST_BUILD
+    COMMAND "${CMAKE_COMMAND}" -E
+        env PATH="${_qt_bin_dir}" "${WINDEPLOYQT_EXECUTABLE}"
+            "$<TARGET_FILE:camera_calibrator>"
+    COMMENT "Running windeployqt..."
+)
