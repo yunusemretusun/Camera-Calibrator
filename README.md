@@ -1,4 +1,4 @@
-## Camera-Calibrator-With-OpenCV-and-QT
+## Camera Calibrator
 
 ### How to build
 
